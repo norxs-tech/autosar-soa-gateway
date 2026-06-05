@@ -1,0 +1,16 @@
+# norxs SOA Gateway — Git line ending policy
+# Target platform: Linux / QNX (LF only)
+
+* text=auto eol=lf
+
+*.cpp    text eol=lf
+*.hpp    text eol=lf
+*.cmake  text eol=lf
+*.md     text eol=lf
+*.yml    text eol=lf
+*.txt    text eol=lf
+
+*.png    binary
+*.jpg    binary
+*.pdf    binary
+*.zip    binary

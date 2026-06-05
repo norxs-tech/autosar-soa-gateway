@@ -1,0 +1,237 @@
+name: CI — Build · Test · Analyze
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # ============================================================================
+  # Job 1: Static Analysis (cppcheck AUTOSAR/MISRA)
+  # ============================================================================
+  static-analysis:
+    name: Static Analysis (cppcheck)
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install cppcheck
+        run: sudo apt-get update && sudo apt-get install -y cppcheck
+
+      - name: Configure (analysis target only)
+        run: |
+          cmake -B build-analyze \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DBUILD_TESTS=OFF
+
+      - name: Run cppcheck
+        run: |
+          cppcheck \
+            --enable=all \
+            --std=c++14 \
+            --language=c++ \
+            --suppress=missingIncludeSystem \
+            --suppress=unmatchedSuppression \
+            --error-exitcode=0 \
+            --xml \
+            --output-file=cppcheck_report.xml \
+            include/ src/
+        working-directory: ${{ github.workspace }}
+
+      - name: Upload cppcheck report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cppcheck-report
+          path: cppcheck_report.xml
+
+  # ============================================================================
+  # Job 2: Build + Unit Tests (GCC on Ubuntu)
+  # ============================================================================
+  build-and-test-gcc:
+    name: Build & Test (GCC 12, Ubuntu 22.04)
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            gcc-12 g++-12 cmake ninja-build \
+            libgtest-dev gcovr
+
+      - name: Build GoogleTest from source
+        run: |
+          cd /usr/src/googletest
+          sudo cmake -B build -DCMAKE_BUILD_TYPE=Release
+          sudo cmake --build build --parallel
+          sudo cmake --install build
+
+      - name: Configure (tests + coverage)
+        run: |
+          cmake -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_C_COMPILER=gcc-12 \
+            -DCMAKE_CXX_COMPILER=g++-12 \
+            -DBUILD_TESTS=ON \
+            -DENABLE_COVERAGE=ON
+
+      - name: Build
+        run: cmake --build build --parallel
+
+      - name: Run core module tests
+        run: |
+          cd build
+          ./soa_gateway_tests --gtest_output=xml:test_results_core.xml
+
+      - name: Run SafetyArbitrator tests
+        run: |
+          cd build
+          ./safety_arbitrator_tests --gtest_output=xml:test_results_arbitrator.xml
+
+      - name: Generate MC/DC coverage report
+        run: |
+          gcovr --root ${{ github.workspace }} \
+            --filter 'src/' --filter 'include/' \
+            --gcov-executable gcov-12 \
+            --exclude-unreachable-branches \
+            --print-summary \
+            --html-details build/coverage.html \
+            build
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-gcc
+          path: |
+            build/test_results_core.xml
+            build/test_results_arbitrator.xml
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: build/coverage*.html
+
+  # ============================================================================
+  # Job 3: Build + Unit Tests (Clang on Ubuntu)
+  # ============================================================================
+  build-and-test-clang:
+    name: Build & Test (Clang 15, Ubuntu 22.04)
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            clang-15 cmake ninja-build libgtest-dev
+
+      - name: Build GoogleTest
+        run: |
+          cd /usr/src/googletest
+          sudo cmake -B build -DCMAKE_BUILD_TYPE=Release
+          sudo cmake --build build --parallel
+          sudo cmake --install build
+
+      - name: Configure (Clang, tests only)
+        run: |
+          cmake -B build-clang \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=clang-15 \
+            -DCMAKE_CXX_COMPILER=clang++-15 \
+            -DBUILD_TESTS=ON \
+            -DENABLE_COVERAGE=OFF
+
+      - name: Build
+        run: cmake --build build-clang --parallel
+
+      - name: Run all tests
+        run: |
+          cd build-clang
+          ./soa_gateway_tests
+          ./safety_arbitrator_tests
+
+  # ============================================================================
+  # Job 4: Forbidden pattern scan (zero dynamic alloc, no exceptions, etc.)
+  # ============================================================================
+  compliance-scan:
+    name: AUTOSAR Compliance Pattern Scan
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan for forbidden patterns
+        run: |
+          echo "=== Checking forbidden patterns ==="
+          FAIL=0
+
+          # Strip comments before scanning to avoid false positives from
+          # English words like "lock-free", "new slot" in Doxygen/comments.
+          strip_comments() {
+            cat include/*.hpp src/*.cpp 2>/dev/null \
+              | perl -0777 -pe 's{/\*.*?\*/}{}gs' \
+              | sed -e 's://.*$::'
+          }
+
+          check() {
+            local pat="$1" desc="$2"
+            local count
+            count=$(strip_comments | grep -cE "$pat" || true)
+            echo "$desc: $count"
+            [ "$count" -gt 0 ] && FAIL=1 || true
+          }
+
+          check '\b(try|catch|throw)\b' "try/catch/throw"
+          check 'std::mutex|lock_guard|unique_lock' "std::mutex"
+          check '\boperator new\b|\bnew\(|\bmalloc\b|\bcalloc\b' "heap allocation"
+          check 'std::vector|std::list|std::map\b|std::deque' "dynamic containers"
+          check 'make_shared|make_unique|shared_ptr<|unique_ptr<' "owning smart ptrs"
+
+          echo ""
+          if [ "$FAIL" -eq 0 ]; then
+            echo "All AUTOSAR compliance checks passed."
+          else
+            echo "AUTOSAR compliance violations found."
+            exit 1
+          fi
+
+      - name: Verify Doxygen headers present
+        run: |
+          FAIL=0
+          for f in include/*.hpp src/*.cpp; do
+            for tag in "@file" "@brief" "@author" "@copyright" "@standards"; do
+              if ! grep -q "$tag" "$f"; then
+                echo "❌ Missing $tag in $f"
+                FAIL=1
+              fi
+            done
+          done
+          if [ "$FAIL" -eq 0 ]; then echo "All Doxygen headers complete."; fi
+          if [ "$FAIL" -ne 0 ]; then exit 1; fi
+
+      - name: Verify include guards
+        run: |
+          FAIL=0
+          for f in include/*.hpp; do
+            if ! grep -q "#ifndef NORXS_SOA_" "$f"; then
+              echo "❌ Missing include guard in $f"
+              FAIL=1
+            fi
+          done
+          if [ "$FAIL" -eq 0 ]; then echo "All include guards present."; fi
+          if [ "$FAIL" -ne 0 ]; then exit 1; fi

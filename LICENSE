@@ -1,0 +1,174 @@
+NORXS TECHNOLOGY LLC — REFERENCE IMPLEMENTATION LICENSE
+Version 1.0, Effective January 1, 2026
+
+Copyright (c) 2026 norxs Technology LLC. All rights reserved.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DEFINITIONS
+
+"Software" means the SOA Gateway for Autonomous Safety-Supervisor source code,
+header files, build scripts, documentation, and associated materials contained
+in this repository, collectively constituting a reference implementation of a
+SOME/IP & DDS integration middleware for the NXP S32G System-on-Chip.
+
+"You" (or "Your") means the individual or legal entity exercising permissions
+granted by this License.
+
+"Commercial Use" means any use of the Software, in whole or in part, directly
+or indirectly, for the purpose of generating revenue, including but not limited
+to integration into a commercial product, use in a commercial service offering,
+or use to support commercial consulting engagements.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. GRANT OF RIGHTS — PERMITTED USES
+
+Subject to the terms of this License, norxs Technology LLC hereby grants You
+a worldwide, royalty-free, non-exclusive, non-transferable license to:
+
+  (a) VIEW and READ the Software for educational, research, and evaluation
+      purposes;
+
+  (b) COPY the Software for personal, non-commercial study;
+
+  (c) FORK and MODIFY the Software solely for the purpose of submitting
+      contributions back to the original repository via pull request;
+
+  (d) CITE the Software in academic papers, technical articles, and conference
+      presentations, provided that proper attribution is given (see §4).
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+2. RESTRICTIONS — PROHIBITED USES
+
+The following uses are expressly PROHIBITED without a separate written
+Commercial License Agreement executed with norxs Technology LLC:
+
+  (a) Commercial Use of the Software, or any substantial portion thereof;
+
+  (b) Integration of the Software, in whole or in part, into any product
+      intended for sale, lease, or commercial deployment, including but not
+      limited to automotive ECUs, industrial controllers, or embedded systems;
+
+  (c) Use of the Software to provide consulting, engineering, or certification
+      services to third parties on a commercial basis;
+
+  (d) Sublicensing, selling, renting, lending, or otherwise transferring the
+      Software or any rights in it to third parties;
+
+  (e) Removal or alteration of any copyright notice, Doxygen header,
+      proprietary legend, or this License from any copy of the Software;
+
+  (f) Reverse engineering the Software for the purpose of creating a competing
+      product or service;
+
+  (g) Use of the norxs name, logo, or trademarks to endorse or promote products
+      derived from this Software without prior written permission.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+3. COMMERCIAL LICENSING
+
+Organizations requiring a Commercial License for integration into production
+systems, ASIL-D certified products, or Tier-1 automotive deliverables should
+contact norxs Technology LLC to discuss terms:
+
+  Website : https://norxs.com
+
+Commercial licenses include:
+  • Full source code rights for production deployment
+  • ASIL-D safety evidence package (FMEA, FTA, DFA documentation)
+  • ISO 26262 work product review and sign-off support
+  • UN R155 / ISO 21434 cybersecurity artifact package
+  • Long-term engineering support and maintenance
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+4. ATTRIBUTION REQUIREMENTS
+
+Any permitted use of the Software must retain:
+
+  (a) The Doxygen corporate header in every source and header file, including
+      the @file, @brief, @author, @copyright, and @standards fields;
+
+  (b) This LICENSE file in its entirety in any copy or fork of the repository;
+
+  (c) The following attribution notice in any publication, presentation, or
+      derivative work that incorporates or references this Software:
+
+        "This work uses or is derived from the norxs SOA Gateway Reference
+         Implementation (c) 2026 norxs Technology LLC, used under the
+         norxs Reference Implementation License v1.0."
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+5. SAFETY-CRITICAL SYSTEMS DISCLAIMER
+
+THIS SOFTWARE IS A REFERENCE IMPLEMENTATION PROVIDED FOR DEMONSTRATION AND
+EVALUATION PURPOSES. IT HAS NOT BEEN INDEPENDENTLY CERTIFIED UNDER ISO 26262,
+IEC 61508, OR ANY OTHER FUNCTIONAL SAFETY STANDARD FOR USE IN SAFETY-CRITICAL
+APPLICATIONS.
+
+DEPLOYMENT OF THIS SOFTWARE IN PRODUCTION SAFETY-CRITICAL SYSTEMS — INCLUDING
+BUT NOT LIMITED TO AUTOMOTIVE ADAS, EV POWERTRAIN CONTROL, INDUSTRIAL SAFETY
+CONTROLLERS, OR MEDICAL DEVICES — WITHOUT A COMMERCIAL LICENSE AND A SEPARATELY
+EXECUTED SAFETY CASE AGREEMENT IS STRICTLY PROHIBITED AND IS DONE AT YOUR SOLE
+RISK.
+
+NORXS TECHNOLOGY LLC EXPRESSLY DISCLAIMS ALL LIABILITY FOR INJURY, DEATH,
+PROPERTY DAMAGE, OR OTHER LOSSES ARISING FROM UNAUTHORIZED DEPLOYMENT IN
+SAFETY-CRITICAL APPLICATIONS.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+6. DISCLAIMER OF WARRANTIES
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. NORXS
+TECHNOLOGY LLC DOES NOT WARRANT THAT THE SOFTWARE WILL MEET YOUR REQUIREMENTS,
+THAT OPERATION WILL BE UNINTERRUPTED OR ERROR-FREE, OR THAT DEFECTS WILL BE
+CORRECTED.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+7. LIMITATION OF LIABILITY
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL NORXS
+TECHNOLOGY LLC OR ITS AFFILIATES, OFFICERS, EMPLOYEES, OR AGENTS BE LIABLE FOR
+ANY INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, WITHOUT LIMITATION, LOSS OF PROFITS, LOSS OF DATA, BUSINESS
+INTERRUPTION, OR COST OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES) ARISING
+OUT OF OR IN CONNECTION WITH THIS SOFTWARE OR THIS LICENSE, HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE), EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+8. GOVERNING LAW AND JURISDICTION
+
+This License shall be governed by and construed in accordance with the laws of
+the State of Wyoming, United States of America, without regard to its conflict
+of law provisions. Any dispute arising under this License shall be subject to
+the exclusive jurisdiction of the state and federal courts located in Sheridan
+County, Wyoming.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+9. ENTIRE AGREEMENT
+
+This License constitutes the entire agreement between the parties with respect
+to the Software and supersedes all prior or contemporaneous understandings,
+agreements, representations, and warranties. Any modification to this License
+must be in writing and signed by an authorized representative of norxs
+Technology LLC.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+END OF LICENSE
+
+norxs Technology LLC
+"Safety Engineering, Built from the Ground Up."
+https://norxs.com
