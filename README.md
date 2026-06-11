@@ -3,11 +3,13 @@
 
 **norxs Technology LLC** | Safety Engineering, Built from the Ground Up.
 
-[![CI](https://github.com/norxs-lab/soa-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/norxs-lab/soa-gateway/actions)
+[![CI](https://github.com/norxs-tech/autosar-soa-gateway/actions/workflows/ci.yml/badge.svg)](https://github.com/norxs-tech/autosar-soa-gateway/actions)
 [![License](https://img.shields.io/badge/license-norxs%20RI%20v1.0-blue)](LICENSE)
 [![Standard](https://img.shields.io/badge/standard-AUTOSAR%20C%2B%2B14-green)]()
 [![Safety](https://img.shields.io/badge/safety-ISO%2026262%20ASIL--D-red)]()
 [![Security](https://img.shields.io/badge/security-UN%20R155%20%7C%20ISO%2021434-orange)]()
+[![OpenChain](https://img.shields.io/badge/OpenChain-ISO%2FIEC%205230%20%C2%B7%2018974-blueviolet)](docs/compliance/)
+[![NIST CSF](https://img.shields.io/badge/NIST-CSF%202.0-lightgrey)](docs/compliance/nist-csf.md)
 
 ---
 
@@ -145,7 +147,10 @@ communication quality requirements from a single coherent codebase.
 | Doxygen headers | **17 / 17** files |
 | Include guards | **9 / 9** headers |
 | `static_assert` on IPC structs | **6** assertions |
-| Unit test cases | **118** (GoogleTest, MC/DC) |
+| Unit test cases | **118 / 118 passed** (GoogleTest, MC/DC) |
+| Line / function / branch coverage (host) | **80.0 % / 86.7 % / 70.8 %** (gcovr) |
+| cppcheck (warning · performance · portability) | **0** findings |
+| GCC `-Wall -Wextra -Wpedantic -Wshadow -Wconversion` | **0** warnings |
 
 ---
 
@@ -238,19 +243,28 @@ soa_gateway/
 │   └── SafetyArbitrator.hpp    Safety: ASIL-D state machine
 ├── src/                        Production source files (8 modules)
 ├── tests/
-│   ├── test_soa_gateway.cpp    Core module tests (60+ cases)
-│   └── test_safety_arbitrator.cpp  ASIL-D MC/DC tests (52 cases)
+│   ├── test_soa_gateway.cpp    Core module tests (64 cases)
+│   └── test_safety_arbitrator.cpp  ASIL-D MC/DC tests (54 cases)
 ├── cmake/
 │   ├── Toolchain-QNX.cmake     QNX SDP 8.0 cross-compilation
 │   └── Toolchain-S32G-M7.cmake ARM bare-metal (Cortex-M7)
 ├── docs/
-│   └── architecture.md         Full architecture deep dive
+│   ├── architecture.md         Full architecture deep dive
+│   ├── verification-report.md  Test · coverage · static-analysis evidence
+│   └── compliance/
+│       ├── openchain-iso5230.md   OpenChain ISO/IEC 5230 mapping
+│       ├── openchain-iso18974.md  OpenChain ISO/IEC 18974 mapping
+│       └── nist-csf.md            NIST CSF 2.0 mapping
+├── sbom/
+│   └── norxs-soa-gateway.spdx.json   SPDX 2.3 SBOM (per-file SHA-1)
 ├── .github/
-│   ├── workflows/ci.yml        Build · Test · Analyze · Compliance CI
+│   ├── workflows/ci.yml        Build · Test · Analyze · Compliance · Supply-Chain CI
 │   ├── ISSUE_TEMPLATE/         Bug report template
 │   └── PULL_REQUEST_TEMPLATE.md
 ├── CMakeLists.txt
 ├── LICENSE                     norxs Reference Implementation License v1.0
+├── NOTICE.md                   Third-party attributions (ISO 5230)
+├── SECURITY.md                 Vulnerability disclosure policy (ISO 18974)
 ├── CHANGELOG.md                Full version history
 ├── CONTRIBUTING.md             Coding standards & contribution guide
 └── README.md                   This file
@@ -263,10 +277,29 @@ soa_gateway/
 - **[Architecture Deep Dive](docs/architecture.md)** — System context, data flow,
   concurrency model, E2E protocol, memory layout, performance figures,
   standards traceability
-- **[CHANGELOG](CHANGELOG.md)** — Complete feature history for v1.0.0
+- **[Verification Report](docs/verification-report.md)** — Executed test
+  results (118/118), coverage, static analysis, compliance scan evidence
+- **[CHANGELOG](CHANGELOG.md)** — Complete version history
 - **[CONTRIBUTING](CONTRIBUTING.md)** — Coding standards, AUTOSAR compliance
   checklist, PR process
 - **[LICENSE](LICENSE)** — norxs Reference Implementation License v1.0
+
+---
+
+## Compliance & Security Posture
+
+| Program | Artifact |
+|---------|----------|
+| **OpenChain ISO/IEC 5230:2020** (OSS license compliance) | [`docs/compliance/openchain-iso5230.md`](docs/compliance/openchain-iso5230.md) · [`NOTICE.md`](NOTICE.md) · [SPDX SBOM](sbom/norxs-soa-gateway.spdx.json) |
+| **OpenChain ISO/IEC 18974:2023** (security assurance) | [`docs/compliance/openchain-iso18974.md`](docs/compliance/openchain-iso18974.md) · [`SECURITY.md`](SECURITY.md) |
+| **NIST CSF 2.0** | [`docs/compliance/nist-csf.md`](docs/compliance/nist-csf.md) |
+
+- **SBOM:** SPDX 2.3, per-file SHA-1, regenerated each release; CI fails on
+  SBOM ↔ source drift.
+- **Vulnerability disclosure:** private reporting via `contact@norxs.com`
+  (`[SECURITY]`) or GitHub Private Vulnerability Reporting — see
+  [`SECURITY.md`](SECURITY.md) for CVD timelines.
+- **Zero third-party runtime dependencies** in the production library.
 
 ---
 

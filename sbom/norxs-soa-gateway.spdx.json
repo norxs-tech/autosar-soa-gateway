@@ -1,0 +1,393 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "norxs-soa-gateway-1.0.1",
+  "documentNamespace": "https://norxs.com/spdx/norxs-soa-gateway-1.0.1",
+  "creationInfo": {
+    "created": "2026-06-11T00:00:00Z",
+    "creators": [
+      "Organization: norxs Technology LLC",
+      "Tool: norxs-sbom-generator-1.0"
+    ],
+    "licenseListVersion": "3.23"
+  },
+  "hasExtractedLicensingInfos": [
+    {
+      "licenseId": "LicenseRef-norxs-RI-1.0",
+      "name": "norxs Reference Implementation License v1.0",
+      "extractedText": "See LICENSE file in repository root. Proprietary source-available license; commercial use requires a separate agreement with norxs Technology LLC.",
+      "seeAlsos": [
+        "https://github.com/norxs-tech/autosar-soa-gateway/blob/main/LICENSE"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "name": "norxs-soa-gateway",
+      "SPDXID": "SPDXRef-Package-soa-gateway",
+      "versionInfo": "1.0.1",
+      "supplier": "Organization: norxs Technology LLC",
+      "downloadLocation": "https://github.com/norxs-tech/autosar-soa-gateway",
+      "filesAnalyzed": true,
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "licenseDeclared": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved.",
+      "primaryPackagePurpose": "LIBRARY",
+      "description": "SOME/IP & DDS SOA Gateway reference implementation for NXP S32G (QNX 8.0 / Cortex-M7 AUTOSAR R25-11). ISO 26262 ASIL-D, UN R155 / ISO/SAE 21434 oriented. No third-party runtime dependencies.",
+      "hasFiles": [
+        "SPDXRef-File-000",
+        "SPDXRef-File-001",
+        "SPDXRef-File-002",
+        "SPDXRef-File-003",
+        "SPDXRef-File-004",
+        "SPDXRef-File-005",
+        "SPDXRef-File-006",
+        "SPDXRef-File-007",
+        "SPDXRef-File-008",
+        "SPDXRef-File-009",
+        "SPDXRef-File-010",
+        "SPDXRef-File-011",
+        "SPDXRef-File-012",
+        "SPDXRef-File-013",
+        "SPDXRef-File-014",
+        "SPDXRef-File-015",
+        "SPDXRef-File-016",
+        "SPDXRef-File-017"
+      ]
+    },
+    {
+      "name": "googletest",
+      "SPDXID": "SPDXRef-Package-googletest",
+      "versionInfo": ">=1.12",
+      "supplier": "Organization: Google LLC",
+      "downloadLocation": "https://github.com/google/googletest",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSD-3-Clause",
+      "licenseDeclared": "BSD-3-Clause",
+      "copyrightText": "Copyright 2008 Google Inc.",
+      "primaryPackagePurpose": "FRAMEWORK",
+      "comment": "TEST-ONLY dependency. Built only with -DBUILD_TESTS=ON. Not distributed with, nor linked into, the production library."
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./CMakeLists.txt",
+      "SPDXID": "SPDXRef-File-000",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "ae671dd56a55c77786cecee815282f69ae9966f5"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/DdsQosPolicy.hpp",
+      "SPDXID": "SPDXRef-File-001",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "7f6880e4e67c6743114686a6193e8aca0fb5b9fb"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/DeadSubscriberMonitor.hpp",
+      "SPDXID": "SPDXRef-File-002",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "b2f0974130b94d0a8cfd47235bebbe151a579ddd"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/HseAdapter.hpp",
+      "SPDXID": "SPDXRef-File-003",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "3453b0ec277b32f62c05cf6a8cec666addaa13c7"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/IamSecurityController.hpp",
+      "SPDXID": "SPDXRef-File-004",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a2546219cb18d6f05ce92773d66e1d976f94b9f7"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/IpcBridge.hpp",
+      "SPDXID": "SPDXRef-File-005",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "65b609defa869f676c3d5a518e27c60da51adafd"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/NetworkAdapter.hpp",
+      "SPDXID": "SPDXRef-File-006",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "7b915deff61b8c98babc7bb813eb7e646a3d6660"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/RateLimiter.hpp",
+      "SPDXID": "SPDXRef-File-007",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a4265c8e42945f517e6f4d9be254317e87ce1ed3"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/SafetyArbitrator.hpp",
+      "SPDXID": "SPDXRef-File-008",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "4e34c1c4a9b8021a2ceae58e90e5a0d27522e014"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./include/SoaServiceManager.hpp",
+      "SPDXID": "SPDXRef-File-009",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "c8010df555b28c651bb5bebf83de92dd09046eb8"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/DdsQosPolicy.cpp",
+      "SPDXID": "SPDXRef-File-010",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "5b14a0509ba13d6e5bbf6db554d5662ad6c0bf73"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/DeadSubscriberMonitor.cpp",
+      "SPDXID": "SPDXRef-File-011",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9deaba828314f829d8a877933b925bcea268254d"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/HseAdapter.cpp",
+      "SPDXID": "SPDXRef-File-012",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "a1c758bc717b684349512a657f6cc0b60cf46942"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/IamSecurityController.cpp",
+      "SPDXID": "SPDXRef-File-013",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "2c97707680025c3f6e016760ae1a24a63cc9418b"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/IpcBridge.cpp",
+      "SPDXID": "SPDXRef-File-014",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "34ebf0311d0624d6f5839a6f3cc010208cbbf981"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/RateLimiter.cpp",
+      "SPDXID": "SPDXRef-File-015",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "9b7cbf81f02c9b3873408d46e730f02a916c7854"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/SafetyArbitrator.cpp",
+      "SPDXID": "SPDXRef-File-016",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "29475ba4d8360aabd99d23074c79687a41124674"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    },
+    {
+      "fileName": "./src/SoaServiceManager.cpp",
+      "SPDXID": "SPDXRef-File-017",
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "14da8bc88e01244be77f424248c9593b93a5c7e0"
+        }
+      ],
+      "licenseConcluded": "LicenseRef-norxs-RI-1.0",
+      "copyrightText": "Copyright (c) 2026 norxs Technology LLC. All rights reserved."
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-soa-gateway"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-googletest",
+      "relationshipType": "TEST_DEPENDENCY_OF",
+      "relatedSpdxElement": "SPDXRef-Package-soa-gateway"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-000"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-001"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-002"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-003"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-004"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-005"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-006"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-007"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-008"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-009"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-010"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-011"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-012"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-013"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-014"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-015"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-016"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-soa-gateway",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-File-017"
+    }
+  ]
+}

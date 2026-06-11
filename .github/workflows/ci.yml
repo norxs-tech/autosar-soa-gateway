@@ -235,3 +235,70 @@ jobs:
           done
           if [ "$FAIL" -eq 0 ]; then echo "All include guards present."; fi
           if [ "$FAIL" -ne 0 ]; then exit 1; fi
+
+  # ============================================================================
+  # Job 5: Supply chain & compliance artifacts (ISO 5230 / ISO 18974)
+  # ============================================================================
+  supply-chain:
+    name: Supply Chain (SBOM · NOTICE · SECURITY)
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify compliance artifacts exist
+        run: |
+          for f in LICENSE NOTICE.md SECURITY.md sbom/norxs-soa-gateway.spdx.json \
+                   docs/compliance/openchain-iso5230.md \
+                   docs/compliance/openchain-iso18974.md \
+                   docs/compliance/nist-csf.md; do
+            if [ ! -f "$f" ]; then echo "❌ Missing $f"; exit 1; fi
+          done
+          echo "All compliance artifacts present."
+
+      - name: Validate SBOM is well-formed SPDX JSON
+        run: |
+          python3 - << 'PY'
+          import json, sys
+          d = json.load(open("sbom/norxs-soa-gateway.spdx.json"))
+          assert d["spdxVersion"].startswith("SPDX-2."), "Not SPDX 2.x"
+          assert d["packages"], "No packages in SBOM"
+          print(f"SPDX OK: {d['name']} — {len(d.get('files', []))} files, "
+                f"{len(d['packages'])} packages")
+          PY
+
+      - name: Verify SBOM matches source tree (file list + SHA-1)
+        run: |
+          python3 - << 'PY'
+          import json, hashlib, glob, sys
+          d = json.load(open("sbom/norxs-soa-gateway.spdx.json"))
+          sbom = {f["fileName"]: f["checksums"][0]["checksumValue"]
+                  for f in d.get("files", [])}
+          src = sorted(glob.glob("include/*.hpp") + glob.glob("src/*.cpp")
+                       + ["CMakeLists.txt"])
+          fail = 0
+          for f in src:
+              key = "./" + f
+              sha = hashlib.sha1(open(f, "rb").read()).hexdigest()
+              if key not in sbom:
+                  print(f"❌ {f} missing from SBOM"); fail = 1
+              elif sbom[key] != sha:
+                  print(f"❌ {f} checksum drift — regenerate SBOM"); fail = 1
+          extra = set(sbom) - {"./" + f for f in src}
+          for e in extra:
+              print(f"❌ stale SBOM entry {e}"); fail = 1
+          if fail: sys.exit(1)
+          print(f"SBOM consistent with source tree ({len(src)} files).")
+          PY
+
+      - name: Scan for foreign copyright in production code (ISO 5230 §3.3.2)
+        run: |
+          # Production code must contain only norxs-owned code.
+          HITS=$(grep -rliE "copyright" include/ src/ | \
+                 xargs grep -liE "copyright[^\n]*" | \
+                 xargs grep -LiE "copyright.*norxs" || true)
+          if [ -n "$HITS" ]; then
+            echo "❌ Non-norxs copyright found in:"; echo "$HITS"; exit 1
+          fi
+          echo "No foreign copyright notices in production code."

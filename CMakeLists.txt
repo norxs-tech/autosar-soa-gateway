@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(norxs_soa_gateway VERSION 1.0.0 LANGUAGES CXX)
+project(norxs_soa_gateway VERSION 1.0.1 LANGUAGES CXX)
 
 # ---------------------------------------------------------------------------
 # AUTOSAR C++14 compliance flags

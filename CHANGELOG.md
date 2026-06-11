@@ -5,6 +5,43 @@ documented here. This project follows [Semantic Versioning](https://semver.org/)
 
 ---
 
+## [Unreleased]
+
+### Planned
+- libFuzzer harness on the SOME/IP deserialization path (CI job)
+- Signed release artifacts with SLSA provenance attestation
+- Target-based (S32G EVB) coverage to close host-unreachable HSE branches
+
+---
+
+## [1.0.1] — 2026-06-11
+
+### Added — Compliance & Supply Chain
+- `SECURITY.md`: Coordinated Vulnerability Disclosure policy
+  (OpenChain ISO/IEC 18974:2023 §3.2; ISO/IEC 29147 / 30111 aligned)
+- `NOTICE.md`: third-party attribution — production library confirmed to have
+  **zero third-party runtime dependencies** (OpenChain ISO/IEC 5230 §3.3.2)
+- `sbom/norxs-soa-gateway.spdx.json`: SPDX 2.3 SBOM with per-file SHA-1
+  checksums for all 18 production/build files
+- `docs/compliance/`: requirement-by-requirement mappings for
+  OpenChain ISO/IEC 5230:2020, OpenChain ISO/IEC 18974:2023, and NIST CSF 2.0
+- `docs/verification-report.md`: executed evidence summary —
+  **118/118 unit tests passed**, line/function/branch coverage
+  **80.0 % / 86.7 % / 70.8 %**, cppcheck and GCC strict-flag builds clean
+- CI Job 5 `supply-chain`: verifies presence of all compliance artifacts,
+  validates the SBOM as well-formed SPDX, fails on SBOM ↔ source-tree drift
+  (file list + SHA-1), and scans production code for foreign copyright notices
+
+### Fixed
+- `noexcept` specifiers added to 27 declarations in `SafetyArbitrator.hpp` and
+  `DeadSubscriberMonitor.hpp` whose definitions were already `noexcept`,
+  eliminating all `-Wpedantic` exception-specifier mismatch warnings
+  (header ↔ implementation interface contract now consistent — AUTOSAR A15-4-4)
+- `README.md`: corrected test-case counts (core 64, SafetyArbitrator 54),
+  corrected CI badge repository path, documented real coverage figures
+
+---
+
 ## [1.0.0] — 2026-01-01
 
 ### Initial public release — norxs Technology LLC

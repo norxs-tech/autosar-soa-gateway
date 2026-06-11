@@ -230,7 +230,7 @@ public:
      *         transmit SafeStateCommand structs to the M7 supervisor.
      * @param  ipc  Non-owning pointer; must remain valid for object lifetime.
      */
-    explicit SafetyArbitrator(IpcBridge* ipc);
+    explicit SafetyArbitrator(IpcBridge* ipc) noexcept;
     ~SafetyArbitrator() noexcept = default;
 
     SafetyArbitrator(SafetyArbitrator const&)            = delete;
@@ -248,7 +248,7 @@ public:
      * @param  mandatoryDomains  Bitmask of SensorDomain values whose loss
      *                           immediately triggers MRC (e.g. LiDAR | Radar).
      */
-    VoidResult Init(std::uint8_t mandatoryDomains);
+    VoidResult Init(std::uint8_t mandatoryDomains) noexcept;
 
     // -------------------------------------------------------------------------
     // Event ingestion (called from SoaServiceManager event handlers)
@@ -263,14 +263,14 @@ public:
      * @param  fault  Decoded fault event from the Orin AI domain.
      * @return VoidResult::Ok() always (fault is recorded regardless).
      */
-    VoidResult IngestFault(SensorFaultEvent const& fault);
+    VoidResult IngestFault(SensorFaultEvent const& fault) noexcept;
 
     /**
      * @brief  Record a heartbeat for a sensor domain (called on healthy frames).
      *         Resets the consecutive fault counter if previously degraded.
      *         Lock-free atomic timestamp update.
      */
-    VoidResult RecordHeartbeat(SensorDomain domain);
+    VoidResult RecordHeartbeat(SensorDomain domain) noexcept;
 
     /**
      * @brief  Convenience adaptor: decode a raw SoaEvent from SoaServiceManager
@@ -278,7 +278,7 @@ public:
      *         Register this as the SoaServiceManager event handler for the
      *         sensor-health SOME/IP service.
      */
-    VoidResult IngestSoaEvent(SoaEvent const& event);
+    VoidResult IngestSoaEvent(SoaEvent const& event) noexcept;
 
     // -------------------------------------------------------------------------
     // Periodic arbitration (call every 10ms from the main safety loop)
@@ -300,7 +300,7 @@ public:
      *         Err(kTimeout) if the transition exceeded kSafeStateTransitionMs.
      *         Err(kE2eViolation) if IPC send failed.
      */
-    VoidResult Arbitrate();
+    VoidResult Arbitrate() noexcept;
 
     // -------------------------------------------------------------------------
     // Direct fault injection (for fault injection testing — ASIL-D requirement)
@@ -313,7 +313,7 @@ public:
      */
     VoidResult InjectFault(SensorDomain domain,
                            SensorHealth health,
-                           std::uint32_t dtcCode);
+                           std::uint32_t dtcCode) noexcept;
 
     // -------------------------------------------------------------------------
     // State observation (read-only, safe to call from any context)
@@ -354,7 +354,7 @@ public:
      * @return Number of records copied.
      */
     std::uint8_t DrainTransitionLog(SafeStateTransition* buffer,
-                                     std::uint8_t         bufferSize);
+                                     std::uint8_t         bufferSize) noexcept;
 
     // -------------------------------------------------------------------------
     // Listener registration
@@ -365,7 +365,7 @@ public:
      *         transition.  Used by diagnostics and the DDS QoS enforcer.
      * @return VoidResult::Ok() or Err(kRegistryFull).
      */
-    VoidResult RegisterListener(SafeStateListener listener);
+    VoidResult RegisterListener(SafeStateListener listener) noexcept;
 
     // -------------------------------------------------------------------------
     // Physical envelope validation (callable from any module)
@@ -375,22 +375,22 @@ public:
      * @brief  Validate a steering angle request against the ROM invariant.
      * @return VoidResult::Ok() if within bounds; Err(kInvalidArgument) if not.
      */
-    static VoidResult ValidateSteeringAngle(float angleDeg);
+    static VoidResult ValidateSteeringAngle(float angleDeg) noexcept;
 
     /**
      * @brief  Validate a friction coefficient estimate.
      */
-    static VoidResult ValidateFrictionCoeff(float mu);
+    static VoidResult ValidateFrictionCoeff(float mu) noexcept;
 
     /**
      * @brief  Validate a longitudinal deceleration request.
      */
-    static VoidResult ValidateDeceleration(float decelMps2);
+    static VoidResult ValidateDeceleration(float decelMps2) noexcept;
 
     /**
      * @brief  Validate a lateral acceleration request.
      */
-    static VoidResult ValidateLateralAccel(float accelMps2);
+    static VoidResult ValidateLateralAccel(float accelMps2) noexcept;
 
 private:
     // -------------------------------------------------------------------------
@@ -410,24 +410,24 @@ private:
      *         Called only from Arbitrate() under the single-caller guarantee.
      * @return VoidResult::Ok() or Err(kTimeout / kE2eViolation).
      */
-    VoidResult ExecuteTransition(SafeState target);
+    VoidResult ExecuteTransition(SafeState target) noexcept;
 
     /**
      * @brief  Serialise a SafeStateCommand into a SoaEvent and push it
      *         through IpcBridge (E2E Profile 5 applied automatically).
      */
-    VoidResult SendCommandToM7(SafeStateCommand const& cmd);
+    VoidResult SendCommandToM7(SafeStateCommand const& cmd) noexcept;
 
     /**
      * @brief  Scan all domains for heartbeat timeout (> kSensorTimeoutMs).
      *         Promotes timed-out domains to kFailed.
      */
-    void ScanTimeouts();
+    void ScanTimeouts() noexcept;
 
     /**
      * @brief  Build the fault and active domain bitmasks from domain states.
      */
-    void UpdateBitmasks();
+    void UpdateBitmasks() noexcept;
 
     /**
      * @brief  Append a transition record to the circular transition log.
@@ -435,12 +435,12 @@ private:
     void LogTransition(SafeState     from,
                        SafeState     to,
                        SensorDomain  trigger,
-                       std::uint32_t latencyMs);
+                       std::uint32_t latencyMs) noexcept;
 
     /**
      * @brief  POSIX CLOCK_MONOTONIC in milliseconds.
      */
-    static std::uint64_t GetMonotonicMs();
+    static std::uint64_t GetMonotonicMs() noexcept;
 
     // -------------------------------------------------------------------------
     // State
@@ -482,13 +482,13 @@ private:
  * @brief  Set the global SafetyArbitrator instance used by SoaEventHandler().
  *         Must be called once before SoaServiceManager::ProcessEvents().
  */
-void SetGlobalArbitrator(SafetyArbitrator* arb);
+void SetGlobalArbitrator(SafetyArbitrator* arb) noexcept;
 
 /**
  * @brief  Static EventHandler function pointer compatible with SoaServiceManager.
  *         Forwards the SoaEvent to the global SafetyArbitrator instance.
  */
-void SoaArbitratorEventHandler(SoaEvent const& event);
+void SoaArbitratorEventHandler(SoaEvent const& event) noexcept;
 
 } // namespace soa
 } // namespace norxs

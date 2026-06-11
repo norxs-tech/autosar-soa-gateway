@@ -114,7 +114,7 @@ public:
     /**
      * @brief  Initialise the monitor; must be called before any other method.
      */
-    VoidResult Init();
+    VoidResult Init() noexcept;
 
     /**
      * @brief  Register a new subscriber for liveness monitoring.
@@ -126,7 +126,7 @@ public:
      */
     VoidResult Register(std::uint16_t serviceId,
                          std::uint16_t eventId,
-                         DeadCallback  onDead);
+                         DeadCallback  onDead) noexcept;
 
     /**
      * @brief  Record a heartbeat for the given subscriber.
@@ -136,7 +136,7 @@ public:
      *         Lock-free: updates a single atomic<uint64_t> timestamp.
      */
     VoidResult RecordHeartbeat(std::uint16_t serviceId,
-                                std::uint16_t eventId);
+                                std::uint16_t eventId) noexcept;
 
     /**
      * @brief  Scan all monitored subscribers for liveness violations.
@@ -147,13 +147,13 @@ public:
      *           3. Frees the liveness slot for re-use.
      *         Returns the count of subscribers evicted in this scan cycle.
      */
-    std::uint8_t ScanAndEvict();
+    std::uint8_t ScanAndEvict() noexcept;
 
     /**
      * @brief  Manually deregister a subscriber (e.g., on graceful disconnect).
      */
     VoidResult Deregister(std::uint16_t serviceId,
-                           std::uint16_t eventId);
+                           std::uint16_t eventId) noexcept;
 
     /**
      * @brief  Return a diagnostic snapshot of the current monitor state.
@@ -165,7 +165,7 @@ private:
                    std::uint16_t eventId,
                    std::uint8_t& idx) const noexcept;
 
-    static std::uint64_t GetMonotonicMs();
+    static std::uint64_t GetMonotonicMs() noexcept;
 
     std::array<LivenessEntry, kMaxMonitoredSubs> entries_{};
     std::atomic<std::uint32_t>                   evictedTotal_{ 0U };
